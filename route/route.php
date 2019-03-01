@@ -8,8 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
-/*Route::get('think', function () {
+/*
+Route::get('think', function () {
     return 'hello,ThinkPHP5!';
 });
 
@@ -28,3 +28,4 @@ return [
 Route::get('hello/:id','sample/Test/hello');
 Route::post('request/:id','sample/Test/request');
 //Route::any();
+Route::get('banner/:id','api/v1.Banner/getBanner');

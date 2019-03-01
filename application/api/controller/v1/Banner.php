@@ -9,7 +9,10 @@
 namespace app\api\controller\v1;
 
 //use think\validate;
-use think\facade\Validate;
+use app\api\model\Banner as BannerModel;
+use app\api\validate\IdMustBePositiveInt;
+use app\api\validate\TestValidate;
+use app\lib\exception\BannerMissException;
 
 class Banner
 {
@@ -22,25 +25,53 @@ class Banner
     public function getBanner($id)
     {
         //validate①独立验证②验证器
-        $validate = Validate::make([
+       /* $validate = Validate::make([
             'name' => 'require|max:10',
             'email' => 'email'
-        ]);
+        ]);*/
 
-        $data = [
+       /* $data   = [
             'name' => 'thinkphpkkkkkkk',
             'email' => 'thinkphpqq.com'
-        ];
+            ];*/
 
-      /*  var_dump($data);
-         $sum = $id + 1;
-        echo $sum;*/
+       /* $validate = new TestValidate();
         $result = $validate->batch()->check($data);
-        var_dump($validate->getError());
+        var_dump($validate->getError());*/
      /*   echo xdebug_time_index();
         for ($i = 0; $i < 250000; $i++){
             // do nothing
         }
         echo "<br>". xdebug_time_index();*/
+
+    /* $data = [
+       'id' => $id
+     ];
+
+     $validate = new IdMustBePositiveInt();
+     $result = $validate->batch()->check($data);
+     if($result){
+         echo 'Success';
+     }else{
+         echo 'UnSeccess';
+     }*/
+
+        (new IdMustBePositiveInt())->goCheck();
+
+        /*try {
+            $banner = BannerModel::getBannerById($id);
+        } catch (\Exception $ex) {
+            $error = [
+                'error-code' => 10001,
+                'msg' => $ex->getMessage()
+            ];
+            return json($error,400);
+        }*/
+
+        $banner = BannerModel::getBannerById($id);
+        if(!$banner){
+            throw new BannerMissException();
+        }
+        return $banner;
     }
 }

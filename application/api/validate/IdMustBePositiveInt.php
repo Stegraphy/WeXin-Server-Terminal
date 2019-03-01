@@ -6,19 +6,22 @@
  * Time: 1:23
  */
 
-namespace app\validate;
+namespace app\api\validate;
 
 
 use think\Validate;
 
-class IdMustBePositiveInt extends Validate
+class IdMustBePositiveInt extends BaseValidate
 {
     protected $rule = [
       'id' => 'require|IsPositiveInteger'
     ];
     protected function IsPositiveInteger($value,$rule = '',$data = '',$filed = ''){
         if(is_numeric($value)&&is_int($value+0)&&($value+0)>0){
+
+//            echo 'success!';
             return true;
+
         }else{
             echo $filed.'必须是正整数';
         }
