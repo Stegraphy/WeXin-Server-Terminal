@@ -11,6 +11,7 @@ namespace app\api\model;
 
 
 
+use think\Db;
 use think\Exception;
 
 class Banner
@@ -24,6 +25,18 @@ class Banner
 //            throw $ex;
 //        }
 //        return 'This is Banner Info';
-        return null;
+//        return null;
+//查询数据库的三种模模式1.原型2.构造器3.模型
+//        $result = Db::query('select * from banner_item where banner_id=?',[$id]);
+//        var_dump($result);
+//        return $result;
+        $result = Db::table('banner_item')->where('banner_id','=',$id)
+            ->select();
+        //find（）函数只返回一维数组，一条数据，select（）函数返回二维数组，两条数据
+//           update()
+//           delete()
+//           insert()
+        return $result;
     }
+
 }

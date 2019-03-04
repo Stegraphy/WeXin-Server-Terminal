@@ -56,7 +56,7 @@ class Banner
      }else{
          echo 'UnSeccess';
      }*/
-
+        //AOP切面编程
         (new IdMustBePositiveInt())->goCheck();
 
         /*try {
@@ -74,7 +74,7 @@ class Banner
 //           throw new Exception('内部错误');
             throw new BannerMissException();
         }
-        return $banner;
+        return json($banner);
     }
 
 

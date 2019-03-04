@@ -15,7 +15,7 @@ class IdMustBePositiveInt extends BaseValidate
 {
     protected $rule = [
       'id' => 'require|IsPositiveInteger',
-        'num' => 'in:1,2,3'
+//        'num' => 'in:1,2,3'
     ];
     protected function IsPositiveInteger($value,$rule = '',$data = '',$filed = ''){
         if(is_numeric($value) && is_int($value + 0) && ($value + 0) > 0){

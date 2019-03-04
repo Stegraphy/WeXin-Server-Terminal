@@ -28,4 +28,4 @@ return [
 Route::get('hello/:id','sample/Test/hello');
 Route::post('request/:id','sample/Test/request');
 //Route::any();
-Route::get('banner/:id','api/v1.Banner/getBanner');
+Route::get('api/v1/banner/:id','api/v1.Banner/getBanner');
