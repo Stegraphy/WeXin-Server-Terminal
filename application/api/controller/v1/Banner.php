@@ -13,6 +13,7 @@ use app\api\model\Banner as BannerModel;
 use app\api\validate\IdMustBePositiveInt;
 use app\api\validate\TestValidate;
 use app\lib\exception\BannerMissException;
+use Exception;
 
 class Banner
 {
@@ -70,8 +71,11 @@ class Banner
 
         $banner = BannerModel::getBannerById($id);
         if(!$banner){
+//           throw new Exception('内部错误');
             throw new BannerMissException();
         }
         return $banner;
     }
+
+
 }
