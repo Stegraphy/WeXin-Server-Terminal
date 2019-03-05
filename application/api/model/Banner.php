@@ -16,7 +16,11 @@ use think\Model;
 
 class Banner extends Model
 {
+    protected $hidden = ['update_time','delete_time'];
 //    protected $table = 'category'; 默认table表为Banner类名
+    public function items(){
+        return $this->hasMany('BannerItem','banner_id','id');
+    }
     public static function getBannerById($id){
         //根据Banner的ID获取Banner信息
 //        try{
@@ -44,14 +48,18 @@ class Banner extends Model
         //where(‘字段名','表达式’，‘查询条件’）缺省表达式默认是=
         /*$result = Db::table('banner_item')->where('banner_id','=',$id)
             ->select(); */ //链式写法
+
+        $banner = self::with(['items','items.img'])->find($id);
+        return $banner;
+
         //闭包写法：
-        $result = Db::table('banner_item')
+/*        $result = Db::table('banner_item')
 //            ->fetchSql()
             ->where(function ($query) use ($id){
                 $query->where('banner_id','=',$id);
             })->select();
         //ORM Object Relation Mapping 对象关系映射 模型与关联
-        return $result;
+        return $result;*/
     }
 
 }

@@ -70,17 +70,24 @@ class Banner
         }*/
 
         //静态调用,推荐使用静态调用的方式
-        $banner = BannerModel::get($id);
+//        $banner = BannerModel::with(['items','items.img '])->find($id);
         //get ,find ,all ,select  用Db不能调用get和all方法
         //实例化对象调用
 //        $banner = new BannerModel();
 //        $banner = $banner->get($id);
-//        $banner = BannerModel::getBannerById($id);
+        $banner = BannerModel::getBannerById($id);
+//       隐藏字段
+//        $banner->hidden(['update_time','delete_time']);
+        //显示指定字段
+//        $banner->visible(['id','update_time']);
+ /*       $data  = $banner->toArray();
+        unset($data['delete_time']);*/
         if(!$banner){
 //           throw new Exception('内部错误');
             throw new BannerMissException();
         }
 //        return json($banner);
+        $c = config('setting.img_prefix');
         return $banner;
     }
 
