@@ -87,7 +87,7 @@ class Banner
             throw new BannerMissException();
         }
 //        return json($banner);
-        $c = config('setting.img_prefix');
+//        $c = config('setting.img_prefix');
         return $banner;
     }
 
