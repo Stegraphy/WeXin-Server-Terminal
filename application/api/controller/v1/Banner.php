@@ -10,6 +10,7 @@ namespace app\api\controller\v1;
 
 //use think\validate;
 use app\api\model\Banner as BannerModel;
+use app\api\model\Image;
 use app\api\validate\IdMustBePositiveInt;
 use app\api\validate\TestValidate;
 use app\lib\exception\BannerMissException;
@@ -76,6 +77,7 @@ class Banner
 //        $banner = new BannerModel();
 //        $banner = $banner->get($id);
         $banner = BannerModel::getBannerById($id);
+
 //       隐藏字段
 //        $banner->hidden(['update_time','delete_time']);
         //显示指定字段
