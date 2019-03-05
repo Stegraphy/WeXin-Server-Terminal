@@ -21,3 +21,11 @@ require __DIR__ . '/../thinkphp/base.php';
 
 // 执行应用并响应
 Container::get('app')->run()->send();
+
+\think\facade\Log::init([
+    'type'        => 'File',
+    // 日志保存目录
+    'path'        =>[],
+    // 日志记录级别
+    'level'       => ['sql']
+]);

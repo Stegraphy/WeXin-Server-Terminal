@@ -69,12 +69,19 @@ class Banner
             return json($error,400);
         }*/
 
-        $banner = BannerModel::getBannerById($id);
+        //静态调用,推荐使用静态调用的方式
+        $banner = BannerModel::get($id);
+        //get ,find ,all ,select  用Db不能调用get和all方法
+        //实例化对象调用
+//        $banner = new BannerModel();
+//        $banner = $banner->get($id);
+//        $banner = BannerModel::getBannerById($id);
         if(!$banner){
 //           throw new Exception('内部错误');
             throw new BannerMissException();
         }
-        return json($banner);
+//        return json($banner);
+        return $banner;
     }
 
 
