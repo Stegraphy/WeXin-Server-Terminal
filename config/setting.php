@@ -6,5 +6,5 @@
  * Time: 20:17
  */
 return [
-  'img_prefix' => 'http://z.cn/images'
+  'img_prefix' => 'http://z.cn:8085/images'
 ];

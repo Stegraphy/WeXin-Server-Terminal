@@ -7,10 +7,10 @@ use think\Model;
 class BaseModel extends Model
 {
     //
-    protected function prefixImgUrl($value,$date){
+    protected function prefixImgUrl($value,$data){
 //        $c = $value;
         $finalUrl = $value;
-        if($date['from'] == 1){
+        if($data['from'] == 1){
             $finalUrl =  config('setting.img_prefix').$value;
         }
         return $finalUrl;

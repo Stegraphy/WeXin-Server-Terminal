@@ -17,14 +17,8 @@ class IdMustBePositiveInt extends BaseValidate
       'id' => 'require|IsPositiveInteger',
 //        'num' => 'in:1,2,3'
     ];
-    protected function IsPositiveInteger($value,$rule = '',$data = '',$filed = ''){
-        if(is_numeric($value) && is_int($value + 0) && ($value + 0) > 0){
 
-//            echo 'success!';
-            return true;
-
-        }else{
-            return $filed.'必须是正整数';
-        }
-    }
+    protected  $message = [
+        'id' => 'id必须是正整数'
+    ];
 }

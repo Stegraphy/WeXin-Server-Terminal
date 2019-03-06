@@ -10,11 +10,9 @@ namespace app\api\controller\v1;
 
 //use think\validate;
 use app\api\model\Banner as BannerModel;
-use app\api\model\Image;
 use app\api\validate\IdMustBePositiveInt;
-use app\api\validate\TestValidate;
+//use app\api\validate\TestValidate;
 use app\lib\exception\BannerMissException;
-use Exception;
 
 class Banner
 {
