@@ -17,7 +17,13 @@ class Product extends BaseModel
         $product = self::limit($count)
             ->order('create_time desc')
             ->select();
-        $product = $product->hidden(['summary']);
         return $product;
+    }
+
+    public static function getProductsByCategoryID($categoryID){
+        $products = self::where('category_id','=',$categoryID)
+            ->select();
+
+        return $products;
     }
 }
