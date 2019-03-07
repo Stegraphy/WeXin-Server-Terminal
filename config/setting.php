@@ -6,5 +6,6 @@
  * Time: 20:17
  */
 return [
-  'img_prefix' => 'http://z.cn:8085/images'
+  'img_prefix' => 'http://z.cn:8085/images',
+    'token_expire' => 7200
 ];
