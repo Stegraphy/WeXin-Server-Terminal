@@ -37,4 +37,18 @@ class Product
         $products = $products->hidden(['summary']);
         return $products;
     }
+
+    public function getOne($id){
+        (new IdMustBePositiveInt())->goCheck();
+        $product = ProductModel::getProductDetail($id);
+        if($product->isEmpty()){
+            throw new ProductException();
+        }
+        return $product;
+    }
+
+    public function deleteOne($id){
+        //使用令牌鉴定用户的身份
+
+    }
 }

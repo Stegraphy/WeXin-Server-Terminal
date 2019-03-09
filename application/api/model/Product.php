@@ -13,6 +13,14 @@ class Product extends BaseModel
         return $this->prefixImgUrl($value,$data);
     }
 
+    public function imgs(){
+       return  $this->hasMany('ProductImage','product_id','id');
+    }
+
+    public function properties(){
+        return $this->hasMany('ProductProperty','product_id','id');
+    }
+
     public static function getMostRecent($count){
         $product = self::limit($count)
             ->order('create_time desc')
@@ -25,5 +33,18 @@ class Product extends BaseModel
             ->select();
 
         return $products;
+    }
+
+    public static function getProductDetail($id){
+   /*     $product = self::with([
+            'imgs' => function($query){
+                $query->with(['imgUrl'])
+                    ->order('order','asc');
+            }
+        ])          闭包构造器解决Order排序问题，不起作用，所以Order】排序失效
+            ->with(['properties'])*/
+   $product = self::with('imgs.imgUrl','properties')
+            ->find($id);
+        return $product;
     }
 }

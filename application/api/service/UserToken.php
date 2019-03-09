@@ -9,7 +9,9 @@
 namespace app\api\service;
 
 
+use app\api\model\User;
 use app\api\model\User as UserModel;
+use app\lib\enum\ScopeEnum;
 use app\lib\exception\TokenException;
 use app\lib\exception\WeChatException;
 use think\Exception;
@@ -27,7 +29,7 @@ class UserToken extends Token
         $this->wxAppID = config('wx.app_id');
         $this->wxAppSecret = config('wx.app_secret');
         $this->wxLoginUrl = sprintf(config('wx.login_url'),
-            $this->wxAppID,$this->wxAppSecret,$this->wxLoginUrl);
+            $this->wxAppID,$this->wxAppSecret,$this->code);
     }
 
     public function  get(){
@@ -74,7 +76,7 @@ class UserToken extends Token
         if(!$request){
             throw new TokenException([
                 'msg' => '服务器缓存异常',
-                'errorcoce' => 10005
+                'errorCode' => 10005
             ]);
         }
         return $key;
@@ -82,8 +84,11 @@ class UserToken extends Token
 
     private function prepareCachedValue($wxResult,$uid){
         $cacheValue = $wxResult;
-        $cacheValue['uuid'] = $uid;
-        $cacheValue['scope'] = 16;
+        $cacheValue['uid'] = $uid;
+        //scope = 16 代表App用户的权限数值
+        $cacheValue['scope'] = ScopeEnum::User;
+//        $cacheValue['scope'] = 15;临时测试用户权限
+        //scope = 32 代表CMS（管理员)用户的权限数值
         return $cacheValue;
     }
 
@@ -97,7 +102,7 @@ class UserToken extends Token
         throw new WeChatException(
             [
                 'msg' => $wxResult['errmsg'],
-                'errorcode' => $wxResult['errcode']
+                'errorCode' => $wxResult['errcode']
             ]
         );
 
