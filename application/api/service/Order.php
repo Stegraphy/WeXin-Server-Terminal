@@ -136,6 +136,18 @@ class Order
         return $userAddress->toArray();
     }
 
+    //开发提供Pay访问的函数
+    public function checkOrderStock($orderID){
+        $oProducts = OrderProduct::where('order_id','=',$orderID)
+            ->select();
+
+        $this->oProducts = $oProducts;
+
+        $this->products = $this->getProductsByOrder($oProducts);
+        $status = $this->getOrderStatus();
+        return $status;
+    }
+
     private function getOrderStatus()
     {
         $status = [

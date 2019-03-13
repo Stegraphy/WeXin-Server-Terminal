@@ -18,64 +18,82 @@ use think\facade\Request;
 
 class Token
 {
-    public static function generateToken(){
+    public static function generateToken()
+    {
         //32个字符组成的一组随记字符串
         $randChars = getRandChars(32);
         //用三组字符串，进行md5加密
         $timestamp = $_SERVER['REQUEST_TIME'];
         //salt盐
         $salt = config('secure.token_salt');
-        return md5($randChars.$timestamp.$salt);
+        return md5($randChars . $timestamp . $salt);
     }
 
-    public static function getCurrentTokenVal($key){
+    public static function getCurrentTokenVal($key)
+    {
         $token = Request::header('token');
         $vars = Cache::get($token);
-        if(!$vars){
+        if (!$vars) {
             throw new TokenException();
-        }else{
-           if(!is_array($vars)){
-               $vars = json_decode($vars,true);
+        } else {
+            if (!is_array($vars)) {
+                $vars = json_decode($vars, true);
 //               print_r($vars);
-           }
-           if(array_key_exists($key,$vars)){
-               return $vars[$key];
-           }else{
-               throw new Exception('尝试获取的Token变量并不存在');
-           }
+            }
+            if (array_key_exists($key, $vars)) {
+                return $vars[$key];
+            } else {
+                throw new Exception('尝试获取的Token变量并不存在');
+            }
         }
     }
-    public static function getCurrenUid(){
+
+    public static function getCurrenUid()
+    {
         //token
         $uid = self::getCurrentTokenVal('uid');
         return $uid;
     }
 
     //需要用户和CMS管理员都可以访问的权限
-    public static function needPrimaryScope(){
+    public static function needPrimaryScope()
+    {
         $scope = self::getCurrentTokenVal('scope');
-        if($scope){
-            if($scope >= ScopeEnum::User){
+        if ($scope) {
+            if ($scope >= ScopeEnum::User) {
                 return true;
-            }else{
+            } else {
                 throw new ForbiddenException();
             }
-        }else{
+        } else {
             throw new TokenException();
         }
     }
 
     //只用用户才可以访问的接口权限
-    public static function needExclusiveScope(){
+    public static function needExclusiveScope()
+    {
         $scope = self::getCurrentTokenVal('scope');
-        if($scope){
-            if($scope >= ScopeEnum::User){
+        if ($scope) {
+            if ($scope >= ScopeEnum::User) {
                 return true;
-            }else{
+            } else {
                 throw new ForbiddenException();
             }
-        }else{
+        } else {
             throw new TokenException();
         }
+    }
+
+    public static function isValidOperate($checkUID)
+    {
+        if (!$checkUID) {
+            throw new Exception('检查UID时必须传入一个被检查的UID');
+        }
+        $currentOperateUID = self::getCurrenUid();
+        if($currentOperateUID == $checkUID){
+            return true;
+        }
+        return false;
     }
 }

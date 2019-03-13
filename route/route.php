@@ -50,3 +50,8 @@ Route::post('api/:version/address','api/:version.Address/createOrUpdateAddress')
 //Route::get('api/:version/second','api/:version.Address/second');前置方法测试
 
 Route::post('api/:version/order','api/:version.Order/placeOrder');
+Route::get('api/:version/order/:id','api/:version.Order/getDetail',[],['id'=>'\d+']);
+Route::post('api/:version/by_user','api/:version.Order/getSummaryOrderByUser');
+
+Route::post('api/:version/pay/pre_order','api/:version.Pay/getPreOrder');
+Route::post('api/:version/pay/notify','api/:version.Pay/receiveNotify');

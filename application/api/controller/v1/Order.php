@@ -10,9 +10,13 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
-use app\api\validate\OrderPlace;
-use app\api\service\Token as TokenService;
 use app\api\service\Order as OrderService;
+use app\api\service\Token as TokenService;
+use app\api\model\Order as OrderModel;
+use app\api\validate\IdMustBePositiveInt;
+use app\api\validate\OrderPlace;
+use app\api\validate\PageInParameter;
+use app\lib\exception\OrderException;
 
 class Order extends BaseController
 {
@@ -27,8 +31,26 @@ class Order extends BaseController
     //成功，进行库存量的扣除，失败，返回一个支付失败的结果
 
     protected $beforeActionList = [
-      'checkExclusiveScope' => ['only' =>'placeOrder']
+      'checkExclusiveScope' => ['only' =>'placeOrder'],
+      'checkPrimaryScope' => ['only' =>'getDetail,getSummaryOrderByUser']
     ];
+
+    public function getSummaryOrderByUser($page=1,$size=5){
+        (new PageInParameter())->goCheck();
+        $uid= \app\api\service\Token::getCurrenUid();
+        $pagingOrders = OrderModel::getSummaryByUser($uid,$page,$size);
+        if($pagingOrders->isEmpty()){
+            return [
+              'data' => [],
+              'current_page' => $pagingOrders->currentPage()
+            ];
+        }
+        $data = $pagingOrders->hidden(['snap_items','snap_address','prepay_id'])->toArray();
+        return [
+            'data' => $data,
+            'current_page' => $pagingOrders->currentPage()
+        ];
+    }
     public function placeOrder()
     {
         (new OrderPlace())->goCheck();
@@ -39,5 +61,14 @@ class Order extends BaseController
         $status = $order->place($uid,$products);
         return $status;
     }
+    public function getDetail($id){
+        (new IdMustBePositiveInt())->goCheck();
+        $orderDetail = OrderModel::get($id);
+        if(!$orderDetail){
+            throw new OrderException();
+        }
+        return $orderDetail->hidden(['prepay_id']);
+    }
+
 
 }
