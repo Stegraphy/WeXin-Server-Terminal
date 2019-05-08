@@ -25,6 +25,8 @@ return [
  */
 //Route::rule('hello','sample/Test/hello');
 //Route::rule('hello','sample/Test/hello','GET|POST',['https'=>false]);
+use think\facade\Route;
+
 Route::get('hello/:id','sample/Test/hello');
 Route::post('request/:id','sample/Test/request');
 //Route::any();
@@ -45,6 +47,8 @@ Route::get('api/:version/theme/:id','api/:version.Theme/getComplexOne');
 Route::get('api/:version/category/all','api/:version.Category/getAllCategories');
 Route::post('api/:version/token/user','api/:version.Token/getToken');
 
+//Route::post('api/:version/token/verify','api/:version.Token/verifyToken');
+Route::post('api/:version/token/verify','api/:version.Token/verifyToken');
 Route::post('api/:version/address','api/:version.Address/createOrUpdateAddress');
 
 //Route::get('api/:version/second','api/:version.Address/second');前置方法测试

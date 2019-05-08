@@ -36,15 +36,28 @@ class Product extends BaseModel
     }
 
     public static function getProductDetail($id){
-   /*     $product = self::with([
+     $product = self::with([
             'imgs' => function($query){
                 $query->with(['imgUrl'])
                     ->order('order','asc');
-            }
-        ])          闭包构造器解决Order排序问题，不起作用，所以Order】排序失效
+            },
+         'properties'
+        ])
+          ->find($id);
+    /*
+          闭包构造器解决Order排序问题，不起作用，所以Order】排序失效
+            原因是TP5.1with方法只能调用一次，请不要多次调用，如果需要对多个关联模型预载入使用数组即可。
             ->with(['properties'])*/
-   $product = self::with('imgs.imgUrl','properties')
-            ->find($id);
+/*  $product = self::with('imgs.imgUrl,properties')
+            ->find($id);*/
+/*        $product = self::with([
+                'imgs' => function ($query)
+                {
+                    $query->with(['imgUrl'])
+                        ->order('order', 'asc');
+                }])
+//            ->with(['properties'])
+            ->find($id);*/
         return $product;
     }
 }
